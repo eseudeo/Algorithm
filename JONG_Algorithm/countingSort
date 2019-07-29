@@ -1,0 +1,72 @@
+#include <stdio.h>
+int C[10000];
+
+void countingSort(int A[], int B[], int n);
+int findMin(int A[], int n);
+int findMin(int A[], int n);
+
+int main() {
+
+   int A[10000], B[1000], size;
+   int i;
+   scanf_s("%d", &size);
+
+   for (i = 0;i < size;i++) {
+      scanf_s("%d", &A[i]);
+   }
+
+   countingSort(A, B, size - 1);
+
+   system("pause");
+   return 0;
+}
+
+int findMin(int A[], int n) {
+   int i, min;
+   min = A[n];
+   for (i = n - 1; i >= 0; i--) {
+      if (min > A[i]) {
+         min = A[i];
+      }
+   }
+   return min;
+}
+
+int findMax(int A[], int n) {
+   int i, max;
+   max = A[0];
+   for (i = 1; i <= n; i++) {
+      if (max < A[i]) {
+         max = A[i];
+      }
+   }
+   return max;
+}
+
+void countingSort(int A[], int B[], int n) {
+   int max, min, k, i;
+   max = findMax(A, n);
+   min = findMin(A, n);
+   k = max - min + 1;
+
+   for (i = 0;i < k ;i++){
+      C[i] = 0;
+   }
+   for (i = 0;i <= n;i++) {
+      C[A[i] - min] += 1;
+   }
+
+   for (i = 1;i < k;i++) {
+      C[i] = C[i] + C[i - 1];
+   }
+
+
+   for (i = 1;i < k;i++) {
+      printf("%d", C[i]);
+   }
+
+   for (i = n;i >= 0;i--) {
+      B[C[A[i] - min]-1] = A[i];
+      C[A[i]]--;
+   }
+}
